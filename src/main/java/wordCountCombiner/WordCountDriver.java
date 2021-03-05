@@ -1,3 +1,5 @@
+package wordCountCombiner;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -15,6 +17,7 @@ import java.io.IOException;
 public class WordCountDriver {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        args = new String[]{"e:/input/wordCount","e:/output1"};
         Configuration conf = new Configuration();
         // 1. 获取 job 对象 -- 实际 hadoop 中执行的是一个个 job
         Job job = Job.getInstance(conf);
@@ -25,6 +28,24 @@ public class WordCountDriver {
         // 3. 关联 map 和 reducer 类
         job.setMapperClass(WordCountMapper.class);
         job.setReducerClass(WordCountReducer.class);
+
+        // 设置 combiner
+        // 如果不设置：log 中：
+        // Combine input records=0；
+        // Combine output records=0
+        // Reduce input records=17
+        // Reduce output records=12
+
+        // method1: 新写一个 combiner 类，作为 combiner 使用
+        // job.setCombinerClass(WordCountCombiner.class);
+        // method2: 直接设置 reducer 为 combiner 类
+        job.setCombinerClass(WordCountReducer.class);
+        //      设置之后参数：
+        //      Combine input records=17
+        //		Combine output records=12
+        //      Reduce input records=12
+        //      Reduce output records=12
+
 
         // 4. 设置 mapper 阶段输出数据类型 - k， v 的类型
         job.setMapOutputKeyClass(Text.class);

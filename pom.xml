@@ -59,7 +59,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>WordCountDriver</mainClass>
+                            <mainClass>wordCountCombiner.WordCountDriver</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

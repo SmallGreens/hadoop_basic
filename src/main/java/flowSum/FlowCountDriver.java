@@ -15,7 +15,7 @@ import java.io.IOException;
 public class FlowCountDriver {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-        args = new String[]{"e:/input/phone_data.txt", "e:/output2"};
+        args = new String[]{"e:/input/phone_data.txt", "e:/output1"};
         // 1. 获取 job 对象
         Job job = Job.getInstance();
 
@@ -37,6 +37,10 @@ public class FlowCountDriver {
         // 6. 设置输入输出路径
         FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+        // 设置分区
+        job.setPartitionerClass(ProvincePartitioner.class);
+        job.setNumReduceTasks(1);
 
         // 7、提交 job
         boolean res = job.waitForCompletion(true);

@@ -1,3 +1,5 @@
+package wordCountCombiner;
+
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -12,6 +14,7 @@ import java.io.IOException;
  *
  */
 public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+
     IntWritable v = new IntWritable();  // 同样的，将生成对象的操作写在类中，减少 reduce 中run 函数循环里面频繁重复 创建对象
 
     @Override
